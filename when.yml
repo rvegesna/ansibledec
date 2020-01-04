@@ -1,0 +1,28 @@
+---
+- hosts: webserver
+  remote_user: test1
+  become: true
+  vars:
+      abc: True
+  tasks:
+     - name: Install httpd package
+       yum: name=httpd state=installed
+       when: ansible_os_family == 'RedHat'
+     - name: install apache2
+       apt: name=apache2 state=installed
+       when: ansible_os_family == 'Debian'
+     - name: Copy index.html  
+       copy: src=index.html  dest=/var/www/html/index.html
+      # register: result
+     #- debug: var=result.changed       
+     - name: Start httpd service
+       #service: name=httpd state=started
+       command: systemctl start httpd
+       delegate_to: localhost
+     #  register: result
+     - debug: var=result
+     - name: Start httpd service
+       service: name=postfix state=restarted
+       #when: result.changed == false
+       #when: result.rc == 0 
+

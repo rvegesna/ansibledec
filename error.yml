@@ -1,0 +1,13 @@
+---
+- hosts: server2.abc.com 
+  remote_user: test1
+  become: true
+  tasks:
+     - name: Install httpd package
+       yum: name=httpd1 state=installed
+       ignore_errors: true
+     - name: Copy index.html
+       copy: src=index.html  dest=/var/www/html/index.html
+     - name: Start httpd service
+       service: name=httpd state=started
+

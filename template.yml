@@ -1,0 +1,8 @@
+---
+- hosts: server2.abc.com 
+  remote_user: test1
+  become: true
+  tasks:
+     - name: Copy xyz.j2 
+       template: src=xyz.j2  dest=/etc/xyz
+
